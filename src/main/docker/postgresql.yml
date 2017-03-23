@@ -1,0 +1,11 @@
+version: '2'
+services:
+    research_mgr-postgresql:
+        image: postgres:9.5.4
+        # volumes:
+        #     - ~/volumes/jhipster/research_mgr/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=research_mgr
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432

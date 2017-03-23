@@ -1,0 +1,52 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "coordinator",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "paperWork"
+        },
+        {
+            "relationshipName": "assignee",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "paperWork"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "subject",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "deadlineDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": []
+        }
+    ],
+    "changelogDate": "20170319192957",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "paper_work",
+    "pagination": "pagination"
+}

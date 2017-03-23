@@ -1,0 +1,82 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myPaperWorkLabel" data-translate="researchMgrApp.paperWork.home.createOrEditLabel">Create or edit a Paper Work</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.paperWork.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.paperWork.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="researchMgrApp.paperWork.subject" for="field_subject">Subject</label>
+            <input type="text" class="form-control" name="subject" id="field_subject"
+                    ng-model="vm.paperWork.subject"
+                    required ng-maxlength="100"/>
+            <div ng-show="editForm.subject.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.subject.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.subject.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="100">
+                    This field cannot be longer than 100 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="researchMgrApp.paperWork.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="vm.paperWork.description"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="researchMgrApp.paperWork.deadlineDate" for="field_deadlineDate">Deadline Date</label>
+                <div class="input-group">
+                    <input id="field_deadlineDate" type="text" class="form-control" name="deadlineDate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.paperWork.deadlineDate" is-open="vm.datePickerOpenStatus.deadlineDate"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('deadlineDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="researchMgrApp.paperWork.coordinator" for="field_coordinator">Coordinator</label>
+            <select class="form-control" id="field_coordinator" name="coordinator" ng-model="vm.paperWork.coordinator" ng-options="user as user.login for user in vm.users track by user.id" required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.coordinator.$invalid">
+            <p class="help-block"
+                ng-show="editForm.coordinator.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label data-translate="researchMgrApp.paperWork.assignee" for="field_assignee">Assignee</label>
+            <select class="form-control" id="field_assignee" name="assignee" ng-model="vm.paperWork.assignee" ng-options="user as user.login for user in vm.users track by user.id" required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.assignee.$invalid">
+            <p class="help-block"
+                ng-show="editForm.assignee.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

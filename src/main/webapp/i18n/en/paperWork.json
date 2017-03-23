@@ -1,0 +1,25 @@
+{
+    "researchMgrApp": {
+        "paperWork" : {
+            "home": {
+                "title": "Paper Works",
+                "createLabel": "Add",
+                "createOrEditLabel": "Create or edit a Paper Work"
+            },
+            "created": "A new Paper Work is created with identifier {{ param }}",
+            "updated": "A Paper Work is updated with identifier {{ param }}",
+            "deleted": "A Paper Work is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Paper Work {{ id }}?"
+            },
+            "detail": {
+                "title": "Paper Work"
+            },
+            "subject": "Subject",
+            "description": "Description",
+            "deadlineDate": "Deadline Date",
+            "coordinator": "Coordinator",
+            "assignee": "Assignee"
+        }
+    }
+}

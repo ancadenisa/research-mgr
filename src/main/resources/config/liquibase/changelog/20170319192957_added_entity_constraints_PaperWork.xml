@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity PaperWork.
+    -->
+    <changeSet id="20170319192957-2" author="jhipster">
+        <validCheckSum>7:412eda9b1c9541b03a03fdc2980bb57b</validCheckSum>
+        <addForeignKeyConstraint baseColumnNames="coordinator_id"
+                                 baseTableName="paper_work"
+                                 constraintName="fk_paper_work_coordinator_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="assignee_id"
+                                 baseTableName="paper_work"
+                                 constraintName="fk_paper_work_assignee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

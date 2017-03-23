@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span data-translate="researchMgrApp.paperWork.detail.title">Paper Work</span> {{vm.paperWork.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row jh-entity-details">
+        <dt><span data-translate="researchMgrApp.paperWork.subject">Subject</span></dt>
+        <dd>
+            <span>{{vm.paperWork.subject}}</span>
+        </dd>
+        <dt><span data-translate="researchMgrApp.paperWork.description">Description</span></dt>
+        <dd>
+            <span>{{vm.paperWork.description}}</span>
+        </dd>
+        <dt><span data-translate="researchMgrApp.paperWork.deadlineDate">Deadline Date</span></dt>
+        <dd>
+            <span>{{vm.paperWork.deadlineDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="researchMgrApp.paperWork.coordinator">Coordinator</span></dt>
+        <dd>
+            {{vm.paperWork.coordinator.login}}
+        </dd>
+        <dt><span data-translate="researchMgrApp.paperWork.assignee">Assignee</span></dt>
+        <dd>
+            {{vm.paperWork.assignee.login}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="paper-work-detail.edit({id:vm.paperWork.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>
