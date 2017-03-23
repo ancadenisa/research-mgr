@@ -9,4 +9,5 @@
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20170319192957_added_entity_constraints_PaperWork.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <include file="classpath:config/liquibase/changelog/20170323223350_added_entity_PaperAttachments.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>
