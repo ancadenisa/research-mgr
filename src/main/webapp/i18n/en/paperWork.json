@@ -19,7 +19,8 @@
             "description": "Description",
             "deadlineDate": "Deadline Date",
             "coordinator": "Coordinator",
-            "assignee": "Assignee"
+            "assignee": "Assignee",
+            "upload": "Upload papers"
         }
     }
 }

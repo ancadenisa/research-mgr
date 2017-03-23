@@ -186,7 +186,32 @@
                     $state.go('^');
                 });
             }]
-        });
+        })
+        .state('paper-work.upload', {
+            parent: 'paper-work',
+            url: '/{id}/upload',
+            data: {
+                authorities: ['ROLE_PHD']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/paper-work/paper-work-upload-dialog.html',
+                    controller: 'PaperWorkUploadController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['PaperWork', function(PaperWork) {
+                            return PaperWork.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('paper-work', null, { reload: 'paper-work' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        })        
+        ;
     }
 
 })();
