@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -145,6 +146,23 @@ public class PaperWorkResource {
         log.debug("REST request to delete PaperWork : {}", id);
         paperWorkService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    /**
+     * PUT  /uploadPaperAttachments/:id Updates the "id" paperWork. by adding paperAttacments to it
+     *
+     * @param paperWork the paperWork to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated paperWork,
+     * or with status 400 (Bad Request) if the paperWork is not valid,
+     * or with status 500 (Internal Server Error) if the paperWork couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @RequestMapping(value = "/uploadPaperAttachments/{id}")
+    @Timed
+    public ResponseEntity<Void>  updloadPaperWorkAttachments(@PathVariable Long id, @RequestParam("file")List<MultipartFile> file) throws URISyntaxException {
+        log.debug("REST request to upload a paper attachment to paper work with id: {}", id);
+        paperWorkService.uploadAttachments(id, file);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, id.toString())).build();
     }
 
 }

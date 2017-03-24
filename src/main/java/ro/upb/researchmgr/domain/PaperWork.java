@@ -42,6 +42,8 @@ public class PaperWork implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     private User assignee;
+    
+    
 
     public Long getId() {
         return id;

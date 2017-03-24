@@ -1,6 +1,6 @@
 <h4>Upload on file select</h4>
 
-<button ngf-select="vm.uploadFiles($files)" multiple accept="image/*">Select
+<button ngf-select="vm.uploadFiles($files)" multiple accept="*">Select
 	Files</button>
 <br>
   <br>
@@ -14,5 +14,6 @@
       <span class="progress" ng-show="vm.progress >= 0">
           <div style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'"></div>
       </span>
-      {{errorMsg}}
+      <br>
+      <p>{{vm.errorMsg}}</p>
 </body>

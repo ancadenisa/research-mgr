@@ -16,10 +16,12 @@
             vm.files = files;
             if (files && files.length) {
                 Upload.upload({
-                    url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                    url: "api/uploadPaperAttachments/" + vm.paperWork.id,
                     data: {
-                        files: files
-                    }
+                        file: files
+                    },
+                	arrayKey: '',
+                	method : 'PUT'
                 }).then(function (response) {
                     $timeout(function () {
                         vm.result = response.data;

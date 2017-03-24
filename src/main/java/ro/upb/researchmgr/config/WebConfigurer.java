@@ -21,6 +21,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -171,6 +172,14 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         }
         return new CorsFilter(source);
     }
+    
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSize(5000000);
+        resolver.setDefaultEncoding("utf-8");
+        return resolver;
+    }    
 
     /**
      * Initializes H2 console.

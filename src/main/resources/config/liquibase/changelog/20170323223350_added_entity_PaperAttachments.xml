@@ -33,4 +33,15 @@
         </createTable>
         
     </changeSet>
+
+	<changeSet id="20170323223350-2" author="jhipster">
+		<addColumn tableName="paper_attachments">
+			<column name="paper_work_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<addForeignKeyConstraint baseColumnNames="paper_work_id"
+			baseTableName="paper_attachments" constraintName="fk_paper_attachments_paper_work_id"
+			referencedColumnNames="id" referencedTableName="paper_work" />
+	</changeSet>
 </databaseChangeLog>
