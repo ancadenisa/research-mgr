@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * A PaperWork.
  */
@@ -41,6 +43,7 @@ public class PaperAttachment implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonBackReference
     private PaperWork paperWork;
 
     public Long getId() {

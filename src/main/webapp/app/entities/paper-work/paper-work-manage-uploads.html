@@ -1,0 +1,24 @@
+<div>
+	<h2 data-translate="researchMgrApp.paperWork.uploads"></h2>
+	<jhi-alert></jhi-alert>
+	<div class="table-responsive">
+		<table class="jh-table table table-striped">
+			<tr ng-repeat="paperAttachment in vm.paperWork.paperAttachments track by paperAttachment.id">
+				<td><a ui-sref="paper-work-detail({id:paperWork.id})">{{paperAttachment.path}}</a></td>
+				<td class="text-right">
+					<div class="btn-group flex-btn-group-container">
+						<button type="submit" ng-click = "vm.downloadPaperAttachment(paperAttachment.id)"
+							class="btn btn-primary btn-sm">
+							<span class="glyphicon glyphicon-cloud-download"></span> <span
+								class="hidden-sm-down" data-translate="researchMgrApp.paperWork.paperAtt.download"></span>
+						</button>
+						<button type="submit" ng-click="vm.deletePaperAttachment(paperAttachment.id)"
+							class="btn btn-danger btn-sm">
+							<span class="glyphicon glyphicon-remove-circle"></span> <span
+								class="hidden-sm-down" data-translate="entity.action.delete"></span>
+						</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

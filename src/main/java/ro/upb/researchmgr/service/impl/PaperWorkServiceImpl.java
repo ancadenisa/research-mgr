@@ -7,16 +7,22 @@ import ro.upb.researchmgr.domain.PaperAttachment;
 import ro.upb.researchmgr.domain.PaperWork;
 import ro.upb.researchmgr.repository.PaperAttachmentRepository;
 import ro.upb.researchmgr.repository.PaperWorkRepository;
+
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.undertow.servlet.spec.ServletContextImpl;
+
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -35,11 +41,14 @@ public class PaperWorkServiceImpl implements PaperWorkService{
     private final PaperAttachmentRepository paperAttachmentRepository;
     
     private final UserService userService;
+    
+    private final ServletContextImpl servletContextImpl;
 
-    public PaperWorkServiceImpl(PaperWorkRepository paperWorkRepository,  UserService userService, PaperAttachmentRepository paperAttachmentRepository) {
+    public PaperWorkServiceImpl(PaperWorkRepository paperWorkRepository,  UserService userService, PaperAttachmentRepository paperAttachmentRepository, ServletContextImpl servletContextImpl) {
         this.paperWorkRepository = paperWorkRepository;
         this.userService = userService;
         this.paperAttachmentRepository = paperAttachmentRepository;
+        this.servletContextImpl = servletContextImpl;
     }
 
     /**
@@ -83,6 +92,15 @@ public class PaperWorkServiceImpl implements PaperWorkService{
         return paperWork;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    // TODO ANCA -  notice its usage - it may have been better that it should have been used only when paper attachments are needed
+    public PaperWork getWithPaperAttachments(Long id) {
+        log.debug("Request to get PaperWork : {}", id);
+        PaperWork paperWork = paperWorkRepository.findOneWithPaperAttachmentsById(id);
+        return paperWork;
+    }
+    
     /**
      *  Delete the  paperWork by id.
      *
@@ -110,24 +128,26 @@ public class PaperWorkServiceImpl implements PaperWorkService{
     public void uploadAttachments(Long id, List<MultipartFile> file) {
     	PaperWork paperWork = paperWorkRepository.findOne(id);
     	for (MultipartFile mf : file) {
+    		String extension = FilenameUtils.getExtension(mf.getOriginalFilename());
     		PaperAttachment paperAttachment = new PaperAttachment();
     		paperAttachment.setDate(new Date());
     		paperAttachment.setPaperWork(paperWork);
     		paperAttachment.setPath("");
     		paperAttachmentRepository.save(paperAttachment);
     		//TODO ANCA - noticed that it would be ok if paperWork has a name clumn
-    		String nameOfFile = userService.getUserWithAuthorities().getLogin() + "_" + paperWork.getSubject() + "_" + paperAttachment.getId();
+			String nameOfFile = userService.getUserWithAuthorities().getLogin() + "_" + paperWork.getSubject() + "_"
+					+ paperAttachment.getId() + "." + extension;
     		paperAttachment.setPath(Constants.UPLOADED_PATH + nameOfFile);
     		paperAttachmentRepository.saveAndFlush(paperAttachment);
     		
     		try {
-				mf.transferTo(new File("src/main/webapp/" + paperAttachment.getPath()));
+    			File f = new File(servletContextImpl.getRealPath(paperAttachment.getPath()));
+    			f.getParentFile().mkdirs();
+				mf.transferTo(f);
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RuntimeException(e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RuntimeException(e.getMessage());
 			}
     	}
     }

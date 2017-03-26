@@ -20,7 +20,12 @@
             "deadlineDate": "Deadline Date",
             "coordinator": "Coordinator",
             "assignee": "Assignee",
-            "upload": "Upload papers"
+            "upload": "Upload papers",
+            "manage-uploads": "Manage uploads",
+            "uploads": "Uploads for this paper",
+            "paperAtt": {
+            	"download": "Download"
+            }
         }
     }
 }

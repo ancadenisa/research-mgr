@@ -130,7 +130,7 @@ public class PaperWorkResource {
     @Timed
     public ResponseEntity<PaperWork> getPaperWork(@PathVariable Long id) {
         log.debug("REST request to get PaperWork : {}", id);
-        PaperWork paperWork = paperWorkService.findOne(id);
+        PaperWork paperWork = paperWorkService.getWithPaperAttachments(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(paperWork));
     }
 

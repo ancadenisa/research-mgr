@@ -3,11 +3,16 @@ package ro.upb.researchmgr.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A PaperWork.
@@ -43,7 +48,9 @@ public class PaperWork implements Serializable {
     @NotNull
     private User assignee;
     
-    
+    @OneToMany(mappedBy = "paperWork", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<PaperAttachment> paperAttachments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -147,4 +154,12 @@ public class PaperWork implements Serializable {
             ", deadlineDate='" + deadlineDate + "'" +
             '}';
     }
+
+	public Set<PaperAttachment> getPaperAttachments() {
+		return paperAttachments;
+	}
+
+	public void setPaperAttachments(Set<PaperAttachment> paperAttachmentList) {
+		this.paperAttachments = paperAttachmentList;
+	}
 }

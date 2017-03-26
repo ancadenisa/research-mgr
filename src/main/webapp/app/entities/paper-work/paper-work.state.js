@@ -210,6 +210,30 @@
                     $state.go('^');
                 });
             }]
+        })
+        .state('paper-work.manage-uploads', {
+            parent: 'paper-work',
+            url: '/{id}/manage-uploads',
+            data: {
+                authorities: ['ROLE_PHD', 'ROLE_COORD']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/paper-work/paper-work-manage-uploads.html',
+                    controller: 'PaperWorkManageUploadsController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['PaperWork', function(PaperWork) {
+                            return PaperWork.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('paper-work', null, { reload: 'paper-work' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
         })        
         ;
     }
