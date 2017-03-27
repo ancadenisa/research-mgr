@@ -225,4 +225,8 @@ public class UserService {
             userRepository.delete(user);
         }
     }
+
+	public Page<UserDTO> getUsersWithRole(Pageable pageable, String role) {
+		return userRepository.findByAuthorities_name(pageable, role);
+	}
 }

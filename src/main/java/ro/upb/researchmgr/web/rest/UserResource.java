@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing users.
@@ -150,6 +151,15 @@ public class UserResource {
         throws URISyntaxException {
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @GetMapping("/users/role/{role:" + Constants.LOGIN_REGEX + "}")
+    @Timed
+    public ResponseEntity<List<UserDTO>> getAllUsersWithRole(@ApiParam Pageable pageable, @PathVariable String role)
+        throws URISyntaxException {
+        final Page<UserDTO> page = userService.getUsersWithRole(pageable, role);	
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/{role: " + role);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

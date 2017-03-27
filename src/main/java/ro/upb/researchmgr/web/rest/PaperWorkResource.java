@@ -57,7 +57,7 @@ public class PaperWorkResource {
      */
     @PostMapping("/paper-works")
     @Timed
-    public ResponseEntity<PaperWork> createPaperWork(@Valid @RequestBody PaperWork paperWork) throws URISyntaxException {
+    public ResponseEntity<PaperWork> createPaperWork(@RequestBody PaperWork paperWork) throws URISyntaxException {
         log.debug("REST request to save PaperWork : {}", paperWork);
         if (paperWork.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new paperWork cannot already have an ID")).body(null);
