@@ -215,7 +215,7 @@
             parent: 'paper-work',
             url: '/{id}/manage-uploads',
             data: {
-                authorities: ['ROLE_PHD', 'ROLE_COORD']
+                authorities: ['ROLE_PHD', 'ROLE_COORD', 'ROLE_SEC']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -233,7 +233,13 @@
                 }, function() {
                     $state.go('^');
                 });
-            }]
+            }],
+            resolve : {
+            	resolvetranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+	                $translatePartialLoader.addPart('paperAttachment');
+	                return $translate.refresh();
+            	}]
+            }
         })        
         ;
     }

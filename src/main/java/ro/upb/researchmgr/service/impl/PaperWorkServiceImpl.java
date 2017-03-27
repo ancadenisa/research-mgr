@@ -1,31 +1,26 @@
 package ro.upb.researchmgr.service.impl;
 
-import ro.upb.researchmgr.service.PaperWorkService;
-import ro.upb.researchmgr.service.UserService;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import io.undertow.servlet.spec.ServletContextImpl;
 import ro.upb.researchmgr.config.Constants;
 import ro.upb.researchmgr.domain.PaperAttachment;
 import ro.upb.researchmgr.domain.PaperWork;
 import ro.upb.researchmgr.repository.PaperAttachmentRepository;
 import ro.upb.researchmgr.repository.PaperWorkRepository;
-
-import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import io.undertow.servlet.spec.ServletContextImpl;
-
-import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
+import ro.upb.researchmgr.service.PaperWorkService;
+import ro.upb.researchmgr.service.UserService;
 
 /**
  * Service Implementation for managing PaperWork.
@@ -60,6 +55,9 @@ public class PaperWorkServiceImpl implements PaperWorkService{
     @Override
     public PaperWork save(PaperWork paperWork) {
         log.debug("Request to save PaperWork : {}", paperWork);
+        // coordinator must be the one that adds the paper
+        // TODO ANCA: IFF: what to do with admin role? 
+        paperWork.setCoordinator(userService.getUserWithAuthorities());
         PaperWork result = paperWorkRepository.save(paperWork);
         return result;
     }
@@ -125,23 +123,22 @@ public class PaperWorkServiceImpl implements PaperWorkService{
     }
     
     @Override
-    public void uploadAttachments(Long id, List<MultipartFile> file) {
+    public void uploadAttachments(Long id, List<MultipartFile> files) {
     	PaperWork paperWork = paperWorkRepository.findOne(id);
-    	for (MultipartFile mf : file) {
-    		String extension = FilenameUtils.getExtension(mf.getOriginalFilename());
+    	for (MultipartFile mf : files) {
     		PaperAttachment paperAttachment = new PaperAttachment();
     		paperAttachment.setDate(new Date());
     		paperAttachment.setPaperWork(paperWork);
     		paperAttachment.setPath("");
     		paperAttachmentRepository.save(paperAttachment);
-    		//TODO ANCA - noticed that it would be ok if paperWork has a name clumn
 			String nameOfFile = userService.getUserWithAuthorities().getLogin() + "_" + paperWork.getSubject() + "_"
-					+ paperAttachment.getId() + "." + extension;
-    		paperAttachment.setPath(Constants.UPLOADED_PATH + nameOfFile);
+					+ paperAttachment.getId() + "_" + mf.getOriginalFilename();
+			// TODO ANCA - noticed that it would be ok if paperWork had a name column instead of path which was designed stores unseless information at the begining
+    		paperAttachment.setPath(nameOfFile);
     		paperAttachmentRepository.saveAndFlush(paperAttachment);
     		
     		try {
-    			File f = new File(servletContextImpl.getRealPath(paperAttachment.getPath()));
+    			File f = new File(servletContextImpl.getRealPath(Constants.ROOT_FOLDER + Constants.UPLOAD_DIR + paperAttachment.getPath()));
     			f.getParentFile().mkdirs();
 				mf.transferTo(f);
 			} catch (IllegalStateException e) {

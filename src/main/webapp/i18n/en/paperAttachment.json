@@ -1,0 +1,7 @@
+{
+    "researchMgrApp": {
+        "paperAttachment": {
+        	"deleted": "A paper attachment is deleted with id {{ param }}"
+        }
+	}
+}

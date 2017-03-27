@@ -2,6 +2,7 @@ package ro.upb.researchmgr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
+import ro.upb.researchmgr.config.Constants;
 import ro.upb.researchmgr.domain.PaperAttachment;
 import ro.upb.researchmgr.domain.PaperWork;
 import ro.upb.researchmgr.domain.User;
@@ -16,6 +17,7 @@ import io.swagger.annotations.ApiParam;
 import io.undertow.servlet.spec.ServletContextImpl;
 import io.github.jhipster.web.util.ResponseUtil;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +58,7 @@ public class PaperAttachmentResource {
 
     private final Logger log = LoggerFactory.getLogger(PaperAttachmentResource.class);
 
-    private static final String ENTITY_NAME = "paperAttachmentt";
+    private static final String ENTITY_NAME = "paperAttachment";
         
     private final PaperAttachmentService paperAttachmentService;
     
@@ -89,7 +91,7 @@ public class PaperAttachmentResource {
     public void downloadPaperWorkAttachments(@PathVariable Long id, HttpServletResponse response) throws URISyntaxException, IOException {
         log.debug("REST request to download a paper attachment to paper work with id: {}", id);
         PaperAttachment paperAttachment = paperAttachmentService.findOne(id);
-        File file = new File(servletContextImpl.getRealPath(paperAttachment.getPath()));
+        File file = new File(servletContextImpl.getRealPath(Constants.ROOT_FOLDER + Constants.UPLOAD_DIR + paperAttachment.getPath()));
         
          
         if(!file.exists()){

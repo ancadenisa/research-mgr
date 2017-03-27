@@ -47,19 +47,19 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-sm-down" data-translate="entity.action.view"></span>
                             </a>
-                            <button type="submit"
+                            <button has-authority="ROLE_COORD" type="submit"
                                     ui-sref="paper-work.edit({id:paperWork.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
                             </button>
-                            <button type="submit"
+                            <button has-authority="ROLE_COORD" type="submit"
                                     ui-sref="paper-work.delete({id:paperWork.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
                             </button>
-                            <button type="submit"
+                            <button has-authority="ROLE_PHD" type="submit"
                                     ui-sref="paper-work.upload({id:paperWork.id})"
                                     class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-cloud-upload"></span>

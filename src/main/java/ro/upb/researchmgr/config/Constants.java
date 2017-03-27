@@ -11,7 +11,8 @@ public final class Constants {
     public static final String SYSTEM_ACCOUNT = "system";
     public static final String ANONYMOUS_USER = "anonymoususer";
 
-    public static final String UPLOADED_PATH = "/paperWorkAttachments/";
+    public static final String UPLOAD_DIR = "paperWorkAttachments/";
+    public static final String ROOT_FOLDER = "src/main/webapp";
     private Constants() {
     }
 }
